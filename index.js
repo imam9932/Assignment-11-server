@@ -20,16 +20,34 @@ const client = new MongoClient(uri, {
   }
 });
 
+ 
 async function run() {
   try {
+
+    const db=client.db('tikitalidb');
+    const ticketsCollection=db.collection('tickets');
+
+// save ticket to the db
+app.post('/tickets',async(req,res)=>{
+  const ticketsData=req.body;
+  console.log(ticketsData);
+  const result=await ticketsCollection.insertOne(ticketsData);
+  res.send(result);
+})
+
+
+
+
     // Connect the client to the server	(optional starting in v4.7)
+
     await client.connect();
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
@@ -40,5 +58,6 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Server listening on port ${port}`)
+});
+ 
