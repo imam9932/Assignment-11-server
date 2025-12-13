@@ -30,9 +30,15 @@ async function run() {
 // save ticket to the db
 app.post('/tickets',async(req,res)=>{
   const ticketsData=req.body;
+  ticketsData.status='pending'
   console.log(ticketsData);
   const result=await ticketsCollection.insertOne(ticketsData);
   res.send(result);
+});
+
+// get data from db
+app.get('/tickets',async(req,res)=>{
+
 })
 
 
