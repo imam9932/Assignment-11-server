@@ -37,8 +37,11 @@ app.post('/tickets',async(req,res)=>{
 });
 
 // get data from db
-app.get('/tickets',async(req,res)=>{
-
+app.get('/my-added-tickets/:email',async(req,res)=>{
+const email=req.params.email;
+console.log(email)
+const result=await ticketsCollection.find({'vendor.email':email}).toArray();
+res.send(result);
 })
 
 
